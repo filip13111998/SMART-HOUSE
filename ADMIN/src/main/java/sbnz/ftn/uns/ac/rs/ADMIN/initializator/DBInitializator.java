@@ -43,28 +43,28 @@ public class DBInitializator {
                         .id(UUID.randomUUID().toString())
                         .name("Nikola Perkovic")
                         .password(encoder.encode("asd"))
-                        .username("ad1")
+                        .username("a1")
                         .build();
 
         Admin a2 = Admin.builder()
                         .id(UUID.randomUUID().toString())
                         .name("Zivko Radic")
                         .password(encoder.encode("asd"))
-                        .username("ad2")
+                        .username("a2")
                         .build();
 
         Admin a3 = Admin.builder()
                         .id(UUID.randomUUID().toString())
                         .name("Pavle Vekic")
                         .password(encoder.encode("asd"))
-                        .username("ad3")
+                        .username("a3")
                         .build();
 
         Admin a4 = Admin.builder()
                         .id(UUID.randomUUID().toString())
                         .name("Zoran Lakic")
                         .password(encoder.encode("asd"))
-                        .username("ad4")
+                        .username("a4")
                         .build();
 
         Owner o1 = Owner.builder()

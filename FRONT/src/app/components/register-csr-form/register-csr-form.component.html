@@ -1,1 +1,106 @@
-<p>register-csr-form works!</p>
+<div style="width:20%;text-align: center;margin-left: 40%;margin-top: 1%;">
+
+  <form [formGroup]="registerCSRForm">
+    <b>REGISTER USER</b>
+    <div class="mb-3">
+      <label for="exampleInputUsername" class="form-label">Username</label>
+      <input type="username" formControlName="username" class="form-control" id="exampleInputUsername"
+        aria-describedby="usernameHelp">
+
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword" class="form-label">Password</label>
+      <input type="password" formControlName="password" class="form-control" id="exampleInputPassword">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputName" class="form-label">Name</label>
+      <input type="text" formControlName="name" class="form-control" id="exampleInputName">
+    </div>
+
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Vehicle Type</label>
+      <select formControlName="role" class="form-control" id="exampleFormControlSelect1">
+        <option>OWNER</option>
+        <option>TENANT</option>
+      </select>
+    </div>
+    <div style="height: 4em;"></div>
+    <b>CSR REQUEST</b>
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="validityStart" placeholder="Validity Start">
+
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="true">Invalid start date
+      </mat-error>
+
+    </mat-form-field> -->
+
+    <mat-form-field>
+      <mat-label>Choose a date for Start</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="validityStart">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="validityStart" matNativeControl>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field> -->
+
+    <!-- <div class="mb-3">
+      <label for="exampleInputvalidityStart" class="form-label">Validity Start</label>
+      <input type="text" formControlName="validityStart" class="form-control" id="exampleInputvalidityStart">
+    </div> -->
+
+    <mat-form-field>
+      <mat-label>Choose a date for Period</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="validityPeriod">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- <div class="mb-3">
+      <label for="exampleInputvalidityPeriod" class="form-label">Validity Period</label>
+      <input type="text" formControlName="validityPeriod" class="form-control" id="exampleInputvalidityPeriod">
+    </div> -->
+
+
+    <div class="mb-3">
+      <label for="exampleInputcommonName" class="form-label">Common Name</label>
+      <input type="text" formControlName="commonName" class="form-control" id="exampleInputcommonName">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputorganizationUnion" class="form-label">Organization Union</label>
+      <input type="text" formControlName="organizationUnion" class="form-control" id="exampleInputorganizationUnion">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputorganizationName" class="form-label">Organization Name</label>
+      <input type="text" formControlName="organizationName" class="form-control" id="exampleInputorganizationName">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputlocalityName" class="form-label">Locality Name</label>
+      <input type="text" formControlName="localityName" class="form-control" id="exampleInputlocalityName">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputstateName" class="form-label">State Name</label>
+      <input type="text" formControlName="stateName" class="form-control" id="exampleInputstateName">
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputcountry" class="form-label">Country</label>
+      <input type="text" formControlName="country" class="form-control" id="exampleInputcountry">
+    </div>
+
+    <button type="submit" class="btn btn-success" (click)="registerCsr()" style="margin-top: 1em;">REGISTER</button>
+
+  </form>
+  <div style="height: 50px;"></div>
+</div>

@@ -23,11 +23,11 @@ export class LoginComponent {
     username: '',
     password: ''
   };
-
-  constructor(private authService : AuthService,private router: Router ,
-    private http : HttpClient, private route:ActivatedRoute) { }
+  currentTime : any;
+  constructor(private authService : AuthService,private router: Router ) { }
 
   ngOnInit(): void {
+
   }
 
 

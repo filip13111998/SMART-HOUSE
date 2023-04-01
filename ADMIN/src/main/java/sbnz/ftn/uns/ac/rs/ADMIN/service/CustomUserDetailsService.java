@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("PROVERA");
+
         Admin admin = ar.findByUsername(username);
         if (admin != null) {
             return admin;
@@ -38,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (owner != null) {
             return owner;
         }
-        System.out.println("STIGAO");
+
         Tenant tenant = tr.findByUsername(username);
         if (tenant != null) {
             return tenant;

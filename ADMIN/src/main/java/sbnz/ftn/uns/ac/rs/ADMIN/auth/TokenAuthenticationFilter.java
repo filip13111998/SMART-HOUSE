@@ -48,13 +48,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
                 username = tokenUtils.getUsernameFromToken(authToken);
 
                 if (username != null) {
-                	System.out.println("USERNAME" + username);
+//                	System.out.println("USERNAME" + username);
+//                    System.out.println("PRC");
                     // 3. Preuzimanje korisnika na osnovu username-a
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                     // 4. Provera da li je prosledjeni token validan
                     if (tokenUtils.validateToken(authToken, userDetails)) {
-                    	System.out.println("TOKEN VALIDAN" + username);
+//                    	System.out.println("TOKEN VALIDAN" + username);
                         
                         // 5. Kreiraj autentifikaciju
                         TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);

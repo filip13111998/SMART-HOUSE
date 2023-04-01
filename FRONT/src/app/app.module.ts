@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +18,15 @@ import { TenantHomeComponent } from './components/tenant-home/tenant-home.compon
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
 import { RegisterCsrFormComponent } from './components/register-csr-form/register-csr-form.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import * as moment from 'moment';
+import { InterceptorService } from './services/interceptor.service';
+import { VerifyCsrComponent } from './components/verify-csr/verify-csr.component';
+import { AdminCsrComponent } from './components/admin-csr/admin-csr.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +38,9 @@ import { RegisterCsrFormComponent } from './components/register-csr-form/registe
     TenantHomeComponent,
     AdminHomeComponent,
     AdminMenuComponent,
-    RegisterCsrFormComponent
+    RegisterCsrFormComponent,
+    VerifyCsrComponent,
+    AdminCsrComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +52,21 @@ import { RegisterCsrFormComponent } from './components/register-csr-form/registe
     MatMenuModule,
     NgbNavModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
     MDBBootstrapModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    { provide: 'moment', useValue: moment },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

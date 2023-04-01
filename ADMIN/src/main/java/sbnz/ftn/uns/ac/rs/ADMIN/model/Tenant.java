@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -23,6 +24,8 @@ public class Tenant implements UserDetails {
     private String name;
     private String username;
     private String password;
+    @OneToOne
+    private CSR csr;
 //    private String role;
 
     @Override

@@ -5,6 +5,6 @@ import sbnz.ftn.uns.ac.rs.ADMIN.model.Admin;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Owner;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Tenant;
 
-public interface TenantRepository extends MongoRepository<Tenant,Long> {
+public interface TenantRepository extends MongoRepository<Tenant,String> {
     Tenant findByUsername(String username);
 }

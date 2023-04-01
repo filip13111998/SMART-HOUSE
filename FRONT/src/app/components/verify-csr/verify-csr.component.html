@@ -1,0 +1,13 @@
+<div style="width:20%;text-align: center;margin-left: 40%;margin-top: 10%;">
+
+  <form [formGroup]="verifyCSRForm">
+    <div class="mb-3">
+      <label for="exampleInputCode" class="form-label">ENTER CODE:</label>
+      <input type="text" formControlName="code" class="form-control" id="exampleInputCode" aria-describedby=" codeHelp">
+
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="verifyCSR()" style="margin-top: 1em;">Login</button>
+  </form>
+
+</div>

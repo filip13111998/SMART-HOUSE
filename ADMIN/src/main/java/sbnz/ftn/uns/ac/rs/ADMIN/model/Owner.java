@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -19,10 +21,12 @@ import java.util.Collection;
 public class Owner implements UserDetails {
 
     @Id
-    private String  id;
+    private String id;
     private String name;
     private String username;
     private String password;
+    @OneToOne
+    private CSR csr;
 //    private String role;
 
     @Override
