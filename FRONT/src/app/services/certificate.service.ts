@@ -1,32 +1,31 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { TableCsr } from '../models/TableCsr';
+import { TableCertificate } from '../models/TableCertificate';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CsrService {
+export class CertificateService {
 
-  private path = "http://localhost:8080/api/csr"
+  private path = "http://localhost:8080/api/certificate"
 
   constructor(private http: HttpClient) { }
 
-  getCSRS():Observable<TableCsr[]> {
+  getCertificates():Observable<TableCertificate[]> {
 
-    return this.http.get<TableCsr[]>( this.path + '/get-all' );
+    return this.http.get<TableCertificate[]>( this.path + '/get-all' );
   }
 
-  acceptCSR(id:string):Observable<Boolean> {
-
-    return this.http.get<Boolean>( this.path + '/accept' + '/' + id);
-  }
-
-  deleteCSR(id:string):Observable<Boolean> {
+  deleteCertificates(id:string):Observable<Boolean> {
 
     return this.http.get<Boolean>( this.path + '/delete' + '/' + id);
   }
 
+  validateCertificate(id:string):Observable<Boolean> {
+
+    return this.http.get<Boolean>( this.path + '/validate' + '/' + id);
+  }
 
 
 

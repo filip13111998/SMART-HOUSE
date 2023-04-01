@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sbnz.ftn.uns.ac.rs.ADMIN.dto.request.CSRRequestDTO;
 import sbnz.ftn.uns.ac.rs.ADMIN.dto.response.CSRResponseDTO;
+import sbnz.ftn.uns.ac.rs.ADMIN.initializator.KeyStoreInitializer;
 import sbnz.ftn.uns.ac.rs.ADMIN.mail.EmailService;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.CSR;
+import sbnz.ftn.uns.ac.rs.ADMIN.model.Certificate;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Owner;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Tenant;
 import sbnz.ftn.uns.ac.rs.ADMIN.repository.CSRRepository;
+import sbnz.ftn.uns.ac.rs.ADMIN.repository.CertificateRepository;
 import sbnz.ftn.uns.ac.rs.ADMIN.repository.OwnerRepository;
 import sbnz.ftn.uns.ac.rs.ADMIN.repository.TenantRepository;
 
 import java.io.IOException;
+import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,12 @@ public class CSRService {
 
     @Autowired
     private TenantRepository tr;
+
+    @Autowired
+    private CertificateRepository cr;
+
+    @Autowired
+    private KeyStoreInitializer ksi;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -142,7 +152,7 @@ public class CSRService {
         return true;
     }
 
-    //ADMIN READ ALL ACCEPTED(VERIFIED) CERTIFICATES
+    //ADMIN VERIFY ALL CSR
     public List<CSRResponseDTO> findAll(){
         List<CSRResponseDTO> lcsrrdto= new ArrayList<>();
 
@@ -167,6 +177,71 @@ public class CSRService {
         return lcsrrdto;
     }
 
+    //ADMIN ACCEPT CSR
+    public Boolean accept(String uuid) throws Exception {
+        List<CSRResponseDTO> lcsrrdto= new ArrayList<>();
 
+        CSR csr  = csrr.findAll().stream()
+                .filter(c->c.getId().equals(uuid))
+                .findFirst()
+                .get();
+
+        csr.setDeleted(true);
+
+        csrr.save(csr);
+
+        //MAYBE I NEED TO DELETE CSR FILE IN RESOURE FOLDER
+        //WRITE CODE THIS
+
+        //CREATE CERTIFICATE AND PUT THEM IN MONGO DB
+        Certificate certificate = Certificate.builder()
+
+                .id(UUID.randomUUID().toString())
+                .validityStart(csr.getValidityStart())
+                .validityPeriod(csr.getValidityPeriod())
+                .issuer("myrootca")
+                .subject(csr.getUser().getUsername())
+                .delete(false)
+                .build();
+
+
+
+        cr.save(certificate);
+
+        //PUT CERTIFICATE INTO KEYSTORE
+
+        //TODO:
+        //generate keypair and put certificate x509 and private key to keystore.p12
+        //issuer is myrootca and subject is csr.getUser().getUsername()
+        //alias is csr.getUser().getUsername()
+
+        ksi.createUserCerificate(csr.getUser().getUsername());
+
+        // Generate a new key pair
+        KeyPair keyPair = KeyStoreInitializer.generateKeyPair();
+
+
+        return true;
+    }
+
+    //ADMIN DELETE CSR
+    public Boolean delete(String uuid){
+        List<CSRResponseDTO> lcsrrdto= new ArrayList<>();
+
+        CSR csr  = csrr.findAll().stream()
+                .filter(c->c.getId().equals(uuid))
+                .findFirst()
+                .get();
+
+        csr.setDeleted(true);
+
+        csrr.save(csr);
+
+        //MAYBE I NEED TO DELETE CSR FILE IN RESOURE FOLDER
+        //WRITE CODE THIS
+
+
+        return true;
+    }
 
 }

@@ -8,7 +8,7 @@ import { RegisterCsrInterface } from '../models/RegisterCsr';
 })
 export class RegisterCsrService {
 
-  private path = "http://localhost:8080/api"
+  private path = "http://localhost:8080/api/csr"
 
   constructor(private http: HttpClient) { }
 

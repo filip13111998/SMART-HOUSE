@@ -27,6 +27,7 @@ import * as moment from 'moment';
 import { InterceptorService } from './services/interceptor.service';
 import { VerifyCsrComponent } from './components/verify-csr/verify-csr.component';
 import { AdminCsrComponent } from './components/admin-csr/admin-csr.component';
+import { AdminCertificatesComponent } from './components/admin-certificates/admin-certificates.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AdminCsrComponent } from './components/admin-csr/admin-csr.component';
     AdminMenuComponent,
     RegisterCsrFormComponent,
     VerifyCsrComponent,
-    AdminCsrComponent
+    AdminCsrComponent,
+    AdminCertificatesComponent
   ],
   imports: [
     BrowserModule,

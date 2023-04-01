@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisterCsrFormComponent } from './components/register-csr-form/register-csr-form.component';
 import { VerifyCsrComponent } from './components/verify-csr/verify-csr.component';
 import { AdminCsrComponent } from './components/admin-csr/admin-csr.component';
+import { AdminCertificatesComponent } from './components/admin-certificates/admin-certificates.component';
 
 const routes: Routes = [
 
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'tenant-home', component:TenantHomeComponent},
 
   {path: 'admin-home', component:AdminHomeComponent},
-  {path: 'admin-csr', component:AdminCsrComponent}
+  {path: 'admin-csr', component:AdminCsrComponent},
+  {path: 'admin-certificate', component:AdminCertificatesComponent}
 
 
 ];

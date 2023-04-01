@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/csr")
 public class CSRController {
 
     @Autowired
@@ -40,6 +40,20 @@ public class CSRController {
         List<CSRResponseDTO> answer = csrs.findAll();
 
         return new ResponseEntity<List<CSRResponseDTO>>(answer, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/accept/{id}")
+    public ResponseEntity<Boolean> accept(@PathVariable("id") String id) throws Exception {
+        Boolean answer = csrs.accept(id);
+
+        return new ResponseEntity<Boolean>(answer, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") String id) throws Exception {
+        Boolean answer = csrs.delete(id);
+
+        return new ResponseEntity<Boolean>(answer, HttpStatus.OK);
     }
 
 

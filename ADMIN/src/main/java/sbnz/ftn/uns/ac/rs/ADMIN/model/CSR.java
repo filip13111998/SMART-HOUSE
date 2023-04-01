@@ -96,9 +96,9 @@ public class CSR {
         pemW.close();
 
         // Write the CSR to a file
-        String fileName = "usr1.csr"; // Change this to the desired file name
+//        String fileName = "usr1.csr"; // Change this to the desired file name
         String fileContent = strW.toString();
-        Writer writer = new OutputStreamWriter(new FileOutputStream("src/main/resources/csr/" + fileName), "UTF-8");
+        Writer writer = new OutputStreamWriter(new FileOutputStream("src/main/resources/csr/" + this.getUser().getUsername()+".csr"), "UTF-8");
         writer.write(fileContent);
         writer.close();
     }
