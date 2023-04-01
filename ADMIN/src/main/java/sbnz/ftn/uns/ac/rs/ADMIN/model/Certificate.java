@@ -22,4 +22,5 @@ public class Certificate {
     private String issuer;
     private String subject;
     private Boolean delete;
+    private Boolean revoke;
 }

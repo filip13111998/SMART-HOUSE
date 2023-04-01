@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class AdminCertificatesComponent {
 
-  displayedColumns: string[] = [ 'issuer', 'subject' , 'validityStart', 'validityPeriod' , 'Delete' , 'Validate'];
+  displayedColumns: string[] = [ 'issuer', 'subject' , 'validityStart', 'validityPeriod' , 'Delete' ,'Revoke', 'Validate'];
 
   certificates: TableCertificate[] = [];
 
@@ -42,8 +42,21 @@ export class AdminCertificatesComponent {
 
   }
 
+  public revokeCertificate(id: string) {
+    this.certificatService.revokeCertificate(id).subscribe((b: Boolean) => {
+      this.ngOnInit();
+    });
+
+  }
+
   public validateCertificate(id: string) {
-    this.certificatService.validateCertificate(id).subscribe((b: Boolean) => {
+    this.certificatService.validateCertificate(id).subscribe((answer: Boolean) => {
+      if(answer){
+        alert("CERTIFICATE WITH ID: " + id + " IS VALID.");
+      }
+      else{
+        alert("CERTIFICATE WITH ID: " + id + " IS INVALID.");
+      }
       this.ngOnInit();
     });
 

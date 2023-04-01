@@ -22,6 +22,11 @@ export class CertificateService {
     return this.http.get<Boolean>( this.path + '/delete' + '/' + id);
   }
 
+  revokeCertificate(id:string):Observable<Boolean> {
+
+    return this.http.get<Boolean>( this.path + '/revoke' + '/' + id);
+  }
+
   validateCertificate(id:string):Observable<Boolean> {
 
     return this.http.get<Boolean>( this.path + '/validate' + '/' + id);

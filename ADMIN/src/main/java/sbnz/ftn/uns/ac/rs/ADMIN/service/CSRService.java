@@ -137,7 +137,7 @@ public class CSRService {
 
         );
 
-        System.out.println("STIGAO");
+//        System.out.println("STIGAO");
 
         return true;
     }
@@ -202,6 +202,7 @@ public class CSRService {
                 .issuer("myrootca")
                 .subject(csr.getUser().getUsername())
                 .delete(false)
+                .revoke(false)
                 .build();
 
 
@@ -217,8 +218,8 @@ public class CSRService {
 
         ksi.createUserCerificate(csr.getUser().getUsername());
 
-        // Generate a new key pair
-        KeyPair keyPair = KeyStoreInitializer.generateKeyPair();
+//        // Generate a new key pair
+//        KeyPair keyPair = KeyStoreInitializer.generateKeyPair();
 
 
         return true;

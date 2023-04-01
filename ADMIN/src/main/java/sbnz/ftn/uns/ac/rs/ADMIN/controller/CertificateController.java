@@ -11,7 +11,9 @@ import sbnz.ftn.uns.ac.rs.ADMIN.service.CSRService;
 import sbnz.ftn.uns.ac.rs.ADMIN.service.CertificateService;
 
 import java.io.IOException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.List;
 
 @RestController
@@ -30,16 +32,23 @@ public class CertificateController {
         return new ResponseEntity< List<CertificateTableDTO>>(answer, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/delete/{id}")
-    public ResponseEntity<Boolean> delete(@RequestBody String code){
-        Boolean answer = cc.delete(code);
+    @GetMapping(value = "/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable String id) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException {
+        Boolean answer = cc.delete(id);
 
         return new ResponseEntity<Boolean>(answer, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/validate/{id}")
-    public ResponseEntity<Boolean> validate(@RequestBody String code){
-        Boolean answer = cc.validate(code);
+    @GetMapping(value = "/revoke/{id}")
+    public ResponseEntity<Boolean> revoke(@PathVariable String id) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException {
+        Boolean answer = cc.revoke(id);
+
+        return new ResponseEntity<Boolean>(answer, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/validate/{id}")
+    public ResponseEntity<Boolean> validate(@PathVariable String id){
+        Boolean answer = cc.validate(id);
 
         return new ResponseEntity<Boolean>(answer, HttpStatus.OK);
     }

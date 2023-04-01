@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.security.auth.x500.X500Principal;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -198,6 +199,13 @@ public class KeyStoreInitializer {
         keystore.store(new FileOutputStream(keystoreFile), KEYSTORE_PASSWORD.toCharArray());
 
     }
+
+    public Boolean deleteCertificate(String alias) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
+        keystore.deleteEntry(alias);
+        keystore.store(new FileOutputStream(keystoreFile), KEYSTORE_PASSWORD.toCharArray());
+        return true;
+    }
+
 
     public static KeyPair generateKeyPair() throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
