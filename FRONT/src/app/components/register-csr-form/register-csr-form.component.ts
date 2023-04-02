@@ -4,12 +4,16 @@ import { RegisterCsrInterface } from 'src/app/models/RegisterCsr';
 import { RegisterCsrService } from 'src/app/services/register-csr.service';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { MatSelectionList } from '@angular/material/list';
 @Component({
   selector: 'app-register-csr-form',
   templateUrl: './register-csr-form.component.html',
   styleUrls: ['./register-csr-form.component.css']
 })
 export class RegisterCsrFormComponent {
+
+  list1Items:string[] = ['Basic Constraints', 'Key Usage'];
+  list2Items:string[] = [];
 
   registerCSRForm = new FormGroup({
 
@@ -25,7 +29,7 @@ export class RegisterCsrFormComponent {
     localityName: new FormControl(''),
     stateName: new FormControl(''),
     country: new FormControl(''),
-
+    template: new FormControl(''),
   });
 
   registerCsrInterface: RegisterCsrInterface = {
@@ -41,6 +45,8 @@ export class RegisterCsrFormComponent {
     localityName: '',
     stateName: '',
     country: '',
+    template:'SSL Client',
+    extensions:''
   };
 
   constructor(private registerCsrService : RegisterCsrService ,private router:Router) { }
@@ -48,9 +54,63 @@ export class RegisterCsrFormComponent {
   ngOnInit(): void {
   }
 
-  public registerCsr(){
-    console.log(this.registerCSRForm.value);
+  public onTemplateChange(){
+    // console.log("USO")
+    const selectedTemplate = this.registerCSRForm.value.template;
+    // console.log(selectedTemplate);
+    if(selectedTemplate == 'SSL Client'){
+      this.list2Items = ['Key Usage'];
+      this.list1Items = []
+    }
+    else{
+      this.list2Items = ['Basic Constraints', 'Key Usage'];
+      this.list1Items = []
+    }
+  }
 
+  moveSelected(sourceList: MatSelectionList, targetList: MatSelectionList) {
+    const selectedItems = sourceList.selectedOptions.selected.map(option => option.value);
+    targetList.options.toArray().forEach(option => {
+      if (selectedItems.includes(option.value)) {
+        option.selected = true;
+      }
+    });
+    selectedItems.forEach((item: string) => {
+      const index = this.list1Items.findIndex(option => option === item);
+      if (index !== -1) {
+        this.list1Items.splice(index, 1);
+      }
+      this.list2Items.push(item);
+    });
+    sourceList.selectedOptions.clear();
+    // console.log(this.list1Items);
+    // console.log(this.list2Items);
+  }
+
+  returnSelected(sourceList: MatSelectionList, targetList: MatSelectionList) {
+    const selectedItems = sourceList.selectedOptions.selected.map(option => option.value);
+    targetList.options.toArray().forEach(option => {
+      if (selectedItems.includes(option.value)) {
+        option.selected = true;
+      }
+    });
+    selectedItems.forEach((item: string) => {
+      const index = this.list2Items.findIndex(option => option === item);
+      if (index !== -1) {
+        this.list2Items.splice(index, 1);
+      }
+      this.list1Items.push(item);
+    });
+    sourceList.selectedOptions.clear();
+  }
+
+
+
+  public registerCsr(){
+    // console.log(this.registerCSRForm.value);
+    // console.log("LIST2")
+    // console.log(this.list2Items);
+    // console.log("END LIST 2");
     let validityStart = moment(this.registerCSRForm.value.validityStart).valueOf();
     let validityPeriod = moment(this.registerCSRForm.value.validityPeriod).valueOf();
 
@@ -66,7 +126,8 @@ export class RegisterCsrFormComponent {
     this.registerCsrInterface.localityName = this.registerCSRForm.value.localityName!;
     this.registerCsrInterface.stateName = this.registerCSRForm.value.stateName!;
     this.registerCsrInterface.country = this.registerCSRForm.value.country!;
-
+    this.registerCsrInterface.template = this.registerCSRForm.value.template!;
+    this.registerCsrInterface.extensions = this.list2Items.join('|')
     /* CHECK FORM DATA ... password,country etc... */
     if (this.registerCSRForm.value.country != undefined && this.registerCSRForm.value.country != undefined) {
       if (this.registerCSRForm.value.country?.length < 2){
@@ -75,7 +136,7 @@ export class RegisterCsrFormComponent {
       }
 
     }
-
+    // console.log(this.registerCsrInterface)
     this.registerCsrService.registerCsr(this.registerCsrInterface).subscribe(
       (answer: Boolean) => {
         if(answer){

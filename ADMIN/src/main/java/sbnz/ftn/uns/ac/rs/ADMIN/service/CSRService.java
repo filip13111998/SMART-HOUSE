@@ -22,10 +22,7 @@ import sbnz.ftn.uns.ac.rs.ADMIN.repository.TenantRepository;
 import java.io.IOException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,6 +78,8 @@ public class CSRService {
                     .localityName(cssrdto.getLocalityName())
                     .stateName(cssrdto.getStateName())
                     .country(cssrdto.getCountry())
+                    .template(cssrdto.getTemplate())
+                    .extensions(cssrdto.getExtensions())
                     .accept(false)
                     .deleted(false)
                     .user(o)
@@ -89,8 +88,8 @@ public class CSRService {
             csrr.save(csr);
 
             //CREATE CSR FILE
-
             csr.generateCSR();
+
         }
         else{
 
@@ -112,6 +111,8 @@ public class CSRService {
                     .localityName(cssrdto.getLocalityName())
                     .stateName(cssrdto.getStateName())
                     .country(cssrdto.getCountry())
+                    .template(cssrdto.getTemplate())
+                    .extensions(cssrdto.getExtensions())
                     .accept(false)
                     .deleted(false)
                     .user(t)
@@ -124,20 +125,12 @@ public class CSRService {
             csr.generateCSR();
         }
 
-
-
-
-
         //SENT VERIFICATION MAIL:
-
         mail.sendEmail(
                 "gavin.lehner83@ethereal.email",
                 "VERIFY CSR REQUEST : " + cssrdto.getUsername() ,
                 "YOUR CODE IS: " + randomNumber
-
         );
-
-//        System.out.println("STIGAO");
 
         return true;
     }
@@ -170,6 +163,7 @@ public class CSRService {
                         .localityName(c.getLocalityName())
                         .stateName(c.getStateName())
                         .country(c.getCountry())
+                        .template(c.getTemplate())
                         .build()
                 )
                 .collect(Collectors.toList());
@@ -195,32 +189,31 @@ public class CSRService {
 
         //CREATE CERTIFICATE AND PUT THEM IN MONGO DB
         Certificate certificate = Certificate.builder()
-
                 .id(UUID.randomUUID().toString())
                 .validityStart(csr.getValidityStart())
                 .validityPeriod(csr.getValidityPeriod())
                 .issuer("myrootca")
                 .subject(csr.getUser().getUsername())
+                .template(csr.getTemplate())
                 .delete(false)
                 .revoke(false)
                 .build();
 
-
-
         cr.save(certificate);
-
-        //PUT CERTIFICATE INTO KEYSTORE
 
         //TODO:
         //generate keypair and put certificate x509 and private key to keystore.p12
         //issuer is myrootca and subject is csr.getUser().getUsername()
         //alias is csr.getUser().getUsername()
 
-        ksi.createUserCerificate(csr.getUser().getUsername());
-
-//        // Generate a new key pair
-//        KeyPair keyPair = KeyStoreInitializer.generateKeyPair();
-
+        //PUT CERTIFICATE INTO KEYSTORE
+        if(csr.getTemplate().equals("SSL Client")){
+            ksi.createSSLClientCerificate(csr.getUser().getUsername(), Arrays.asList(csr.getExtensions().split("\\|")));
+        }
+        else if(csr.getTemplate().equals("CA")){
+//            System.out.println("PRE GRESKE");
+            ksi.createCACertificate(csr.getUser().getUsername(), Arrays.asList(csr.getExtensions().split("\\|")));
+        }
 
         return true;
     }

@@ -10,4 +10,5 @@ export interface TableCsr{
     localityName:string;
     stateName:string;
     country:string;
+    template:string;
 }

@@ -21,4 +21,5 @@ public class CSRResponseDTO {
     private String localityName;
     private String stateName;
     private String country;
+    private String template;
 }

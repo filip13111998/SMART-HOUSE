@@ -99,6 +99,40 @@
       <input type="text" formControlName="country" class="form-control" id="exampleInputcountry">
     </div>
 
+    <div class="form-group">
+      <label for="exampleFormControlSelect2">Template</label>
+      <select formControlName="template" class="form-control" id="exampleFormControlSelect2"
+        (change)="onTemplateChange()">
+        <option>SSL Client</option>
+        <option>CA</option>
+      </select>
+    </div>
+
+    <div style="height: 5em;"></div>
+    <!-- List 1 -->
+    <b>CHOOSE EXTENSIONS</b>
+    <mat-selection-list #list1 [multiple]="true">
+      <mat-list-option *ngFor="let item of list1Items" [value]="item">
+        {{ item }}
+      </mat-list-option>
+    </mat-selection-list>
+
+    <!-- Move buttons -->
+    <!-- <button mat-raised-button color="primary" (click)="moveSelected(list1, list2)">Add Extension</button>
+    <button mat-raised-button color="primary" (click)="returnSelected(list2, list1)">Remove Extension</button> -->
+
+    <button class="btn btn-primary" (click)="moveSelected(list1, list2)">Add Extension</button>
+    <button class="btn btn-danger" (click)="returnSelected(list2, list1)">Remove Extension</button>
+
+    <div style="height: 5em;"></div>
+    <!-- List 2 -->
+    <b>SELECTED EXTENSIONS</b>
+    <mat-selection-list #list2 [multiple]="true">
+      <mat-list-option *ngFor="let item of list2Items" [value]="item">
+        {{ item }}
+      </mat-list-option>
+    </mat-selection-list>
+
     <button type="submit" class="btn btn-success" (click)="registerCsr()" style="margin-top: 1em;">REGISTER</button>
 
   </form>

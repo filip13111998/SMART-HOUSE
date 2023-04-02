@@ -21,6 +21,7 @@ public class Certificate {
     private Long validityPeriod;
     private String issuer;
     private String subject;
+    private String template;
     private Boolean delete;
     private Boolean revoke;
 }

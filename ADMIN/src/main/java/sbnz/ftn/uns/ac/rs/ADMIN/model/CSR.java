@@ -52,6 +52,8 @@ public class CSR {
     private String localityName;
     private String stateName;
     private String country;
+    private String template;
+    private String extensions;
     private Boolean accept;
 
     private Boolean deleted;

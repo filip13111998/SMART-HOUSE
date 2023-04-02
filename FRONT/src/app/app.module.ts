@@ -23,6 +23,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MatListModule } from '@angular/material/list'; // Import MatListModule
 import * as moment from 'moment';
 import { InterceptorService } from './services/interceptor.service';
 import { VerifyCsrComponent } from './components/verify-csr/verify-csr.component';
@@ -59,6 +60,7 @@ import { AdminCertificatesComponent } from './components/admin-certificates/admi
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
+    MatListModule,
     MDBBootstrapModule.forRoot(),
   ],
   providers: [

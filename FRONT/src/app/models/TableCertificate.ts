@@ -4,5 +4,6 @@ export interface TableCertificate{
   validityPeriod:string;
   issuer:string;
   subject:string;
+  template:string;
   delete:boolean;
 }

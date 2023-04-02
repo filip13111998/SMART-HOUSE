@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class AdminCertificatesComponent {
 
-  displayedColumns: string[] = [ 'issuer', 'subject' , 'validityStart', 'validityPeriod' , 'Delete' ,'Revoke', 'Validate'];
+  displayedColumns: string[] = [ 'issuer', 'subject' , 'validityStart', 'validityPeriod','template' , 'Delete' ,'Revoke', 'Validate'];
 
   certificates: TableCertificate[] = [];
 

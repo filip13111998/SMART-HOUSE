@@ -40,6 +40,14 @@
       {{element.serialNumber}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="template">
+    <th mat-header-cell *matHeaderCellDef>
+      template
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{element.template}} </td>
+  </ng-container>
+
   <!-- <ng-container matColumnDef="commonName">
     <th mat-header-cell *matHeaderCellDef>
       commonName

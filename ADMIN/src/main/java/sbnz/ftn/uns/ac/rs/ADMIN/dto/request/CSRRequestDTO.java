@@ -21,6 +21,8 @@ public class CSRRequestDTO {
     private String stateName;
     private String country;
     private String role;
+    private String template;
+    private String extensions;
 
 
 }

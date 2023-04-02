@@ -11,4 +11,6 @@ export interface RegisterCsrInterface{
   localityName: string,
   stateName: string,
   country: string,
+  template:string,
+  extensions:string,
 }

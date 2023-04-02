@@ -36,6 +36,7 @@ public class CertificateService {
                                 .subject(c.getSubject())
                                 .validityStart(c.getValidityStart())
                                 .validityPeriod(c.getValidityPeriod())
+                                .template(c.getTemplate())
                                 .delete(c.getDelete())
                                 .build())
                 .collect(Collectors.toList());
@@ -45,28 +46,36 @@ public class CertificateService {
     }
 
     public Boolean delete(String uuid) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException {
-        System.out.println(uuid);
+
         Certificate certificate = cr.findById(uuid).get();
+
         certificate.setDelete(true);
 
         cr.save(certificate);
 
         ksi.deleteCertificate(certificate.getSubject());
+
         return true;
 
     }
 
     public Boolean revoke(String uuid) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException {
+
         Certificate certificate = cr.findById(uuid).get();
+
 //        certificate.setDelete(true);
+
         certificate.setRevoke(true);
+
         cr.save(certificate);
 
         ksi.deleteCertificate(certificate.getSubject());
+
         return true;
     }
 
     public Boolean validate(String uuid){
+
         Certificate certificate = cr.findById(uuid).orElse(null);
 
         if (certificate == null) {

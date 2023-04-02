@@ -40,6 +40,14 @@
       {{element.validityPeriod}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="template">
+    <th mat-header-cell *matHeaderCellDef>
+      template
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{element.template}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="Delete">
     <th mat-header-cell *matHeaderCellDef>Delete </th>
     <td mat-cell *matCellDef="let element">

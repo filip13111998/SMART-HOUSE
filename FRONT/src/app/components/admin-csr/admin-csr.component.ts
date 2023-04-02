@@ -13,7 +13,7 @@ export class AdminCsrComponent {
   //                               'localityName', 'stateName', 'country' , 'Accept' , 'Delete'];
 
   displayedColumns: string[] = [ 'username', 'validityStart', 'validityPeriod',
-                                'serialNumber' , 'Accept' , 'Delete'];
+                                'serialNumber','template' , 'Accept' , 'Delete'];
 
   csrs: TableCsr[] = [];
 
