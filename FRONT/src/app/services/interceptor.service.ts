@@ -9,12 +9,26 @@ export class InterceptorService {
 
   constructor() { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let tokenizedReq = req.clone(
-      {
-        headers: req.headers.set('Authorization', 'Bearer ' + localStorage.getItem('user_token'))
-      }
-    )
-    console.log(tokenizedReq);
-    return next.handle(tokenizedReq)
+    if(localStorage.getItem('user_token') == null) {
+      let tokenizedReq = req.clone(
+        {
+
+          headers: req.headers.set('Authorization', 'Bearer ')
+        }
+      )
+      console.log(tokenizedReq);
+      return next.handle(tokenizedReq)
+    }
+    else{
+      let tokenizedReq = req.clone(
+        {
+
+          headers: req.headers.set('Authorization', 'Bearer ' + localStorage.getItem('user_token'))
+        }
+      )
+      console.log(tokenizedReq);
+      return next.handle(tokenizedReq)
+    }
+
   }
 }

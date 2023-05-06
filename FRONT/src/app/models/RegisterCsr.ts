@@ -1,6 +1,7 @@
 export interface RegisterCsrInterface{
   username: string;
   password: string;
+  pin:string;
   name: string,
   role:string,
   validityStart: number,

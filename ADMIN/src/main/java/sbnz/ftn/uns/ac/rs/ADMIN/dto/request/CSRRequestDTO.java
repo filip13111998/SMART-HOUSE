@@ -11,6 +11,7 @@ public class CSRRequestDTO {
 
     private String username;
     private String password;
+    private String pin;
     private String name;
     private Long validityStart;
     private Long validityPeriod;
@@ -23,6 +24,5 @@ public class CSRRequestDTO {
     private String role;
     private String template;
     private String extensions;
-
 
 }

@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { TableCertificate } from 'src/app/models/TableCertificate';
 import { CertificateService } from './../../services/certificate.service';
 import { Component } from '@angular/core';
@@ -14,7 +15,7 @@ export class AdminCertificatesComponent {
   certificates: TableCertificate[] = [];
 
 
-  constructor(private certificatService: CertificateService) { }
+  constructor(private certificatService: CertificateService , public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.getCertificates();

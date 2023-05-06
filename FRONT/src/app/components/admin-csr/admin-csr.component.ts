@@ -1,6 +1,7 @@
 import { TableCsr } from 'src/app/models/TableCsr';
 import { CsrService } from './../../services/csr.service';
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-csr',
@@ -18,7 +19,7 @@ export class AdminCsrComponent {
   csrs: TableCsr[] = [];
 
 
-  constructor(private CsrService: CsrService) { }
+  constructor(private CsrService: CsrService , public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.getCSRS();

@@ -29,6 +29,7 @@ import { InterceptorService } from './services/interceptor.service';
 import { VerifyCsrComponent } from './components/verify-csr/verify-csr.component';
 import { AdminCsrComponent } from './components/admin-csr/admin-csr.component';
 import { AdminCertificatesComponent } from './components/admin-certificates/admin-certificates.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AdminCertificatesComponent } from './components/admin-certificates/admi
     RegisterCsrFormComponent,
     VerifyCsrComponent,
     AdminCsrComponent,
-    AdminCertificatesComponent
+    AdminCertificatesComponent,
+    AdminUsersComponent
   ],
   imports: [
     BrowserModule,

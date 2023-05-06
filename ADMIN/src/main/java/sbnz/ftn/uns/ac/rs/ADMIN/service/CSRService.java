@@ -14,6 +14,7 @@ import sbnz.ftn.uns.ac.rs.ADMIN.model.CSR;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Certificate;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Owner;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Tenant;
+import sbnz.ftn.uns.ac.rs.ADMIN.passwordReader.PasswordReader;
 import sbnz.ftn.uns.ac.rs.ADMIN.repository.CSRRepository;
 import sbnz.ftn.uns.ac.rs.ADMIN.repository.CertificateRepository;
 import sbnz.ftn.uns.ac.rs.ADMIN.repository.OwnerRepository;
@@ -53,11 +54,27 @@ public class CSRService {
     @Autowired
     private EmailService mail;
 
+    @Autowired
+    private PasswordReader passwordReader;
+
     public boolean save(CSRRequestDTO cssrdto) throws IOException, NoSuchAlgorithmException, OperatorCreationException {
 
         Random random = new Random();
         long randomNumber = (long) (Math.random() * 9_000_000_000_000_000L) + 1_000_000_000_000_000L;
 
+        if(cssrdto.getPassword().length() < 7 || !cssrdto.getPassword().matches(".*\\d+.*") || !cssrdto.getPassword().matches(".*[A-Z]+.*")
+            ||  !cssrdto.getPassword().matches(".*[a-z]+.*") || !cssrdto.getPassword().matches(".*[^a-zA-Z0-9]+.*")){
+            System.out.println("WRONG USERNAME!");
+            return false;
+        }
+
+        if(passwordReader.getPasswords().contains(cssrdto.getPassword())){
+            System.out.println("WEAK PASSWORD!");
+            return false;
+        }
+
+        System.out.println("GOOD!");
+//        return true;
 
         if(cssrdto.getRole().equals("OWNER")){
             Owner o = Owner.builder()
@@ -65,6 +82,8 @@ public class CSRService {
                     .name(cssrdto.getName())
                     .password(encoder.encode(cssrdto.getPassword()))
                     .username(cssrdto.getUsername())
+                    .pin(cssrdto.getPin())
+                    .counter(0l)
                     .build();
 
             CSR csr = CSR.builder()
@@ -98,6 +117,8 @@ public class CSRService {
                     .name(cssrdto.getName())
                     .password(encoder.encode(cssrdto.getPassword()))
                     .username(cssrdto.getUsername())
+                    .pin(cssrdto.getPin())
+                    .counter(0l)
                     .build();
 
             CSR csr = CSR.builder()
@@ -136,13 +157,26 @@ public class CSRService {
     }
 
     public boolean verify(String code){
+        System.out.println("VERIFYYY");
         CSR csr = csrr.findBySerialNumber(code);
         if(csr == null){
             return false;
         }
         csr.setAccept(true);
         csrr.save(csr);
-        return true;
+        Owner owner = or.findByUsername(csr.getUser().getUsername());
+        if(owner != null){
+            owner.setActive(true);
+            or.save(owner);
+            return true;
+        }
+        Tenant tenant = tr.findByUsername(csr.getUser().getUsername());
+        if(tenant != null){
+            tenant.setActive(true);
+            tr.save(tenant);
+            return true;
+        }
+        return false;
     }
 
     //ADMIN VERIFY ALL CSR

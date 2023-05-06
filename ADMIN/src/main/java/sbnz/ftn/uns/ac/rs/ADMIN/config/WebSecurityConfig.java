@@ -2,14 +2,21 @@ package sbnz.ftn.uns.ac.rs.ADMIN.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,10 +24,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import sbnz.ftn.uns.ac.rs.ADMIN.auth.RestAuthenticationEntryPoint;
 import sbnz.ftn.uns.ac.rs.ADMIN.auth.TokenAuthenticationFilter;
+import sbnz.ftn.uns.ac.rs.ADMIN.permission.MyPermissionEvaluator;
 import sbnz.ftn.uns.ac.rs.ADMIN.service.CustomUserDetailsService;
 import sbnz.ftn.uns.ac.rs.ADMIN.utils.TokenUtils;
 
+import javax.annotation.PostConstruct;
+
 @Configuration
+//@EnableWebSecurity
 //Ukljucivanje podrske za anotacije "@Pre*" i "@Post*" koje ce aktivirati autorizacione provere za svaki pristup metodi
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -39,12 +50,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
+    @Autowired
+    private ConfigurableApplicationContext context;
+
     // Registrujemo authentication manager koji ce da uradi autentifikaciju korisnika za nas
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 
     // Definisemo nacin utvrdjivanja korisnika pri autentifikaciji
     @Autowired
@@ -65,6 +80,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenUtils tokenUtils;
 
+//    @Autowired
+//    private MyPermissionEvaluator myPermissionEvaluator;
+//    @Autowired
+//    @Qualifier("permissionEvaluator1")
+//    private PermissionEvaluator permissionEvaluator1;
+//
+//    @Autowired
+//    @Qualifier("permissionEvaluator2")
+//    private PermissionEvaluator permissionEvaluator2;
+
     // Definisemo prava pristupa za zahteve ka odredjenim URL-ovima/rutama
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -80,14 +105,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // svim korisnicima dopusti da pristupe sledecim putanjama:
                 .authorizeRequests()
 //                .antMatchers("/hello/**").permitAll()
-
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/owner/**").hasRole("OWNER")
+//                .antMatchers("/test/**").authenticated()
                 .antMatchers("/tenant/**").hasRole("TENANT")
                 .antMatchers("/all/**").permitAll()
                 .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/auth/**").permitAll()		// /auth/**
-                .antMatchers("/api/**").permitAll()	// /h2-console/** ako se koristi H2 baza)
                 .antMatchers("/h2-console/**").permitAll()	// /h2-console/** ako se koristi H2 baza)
                 .antMatchers("/api/foo").permitAll()		// /api/foo
                 .antMatchers("/home/**").permitAll()
@@ -106,11 +131,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
 
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
-                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
+                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService,context), BasicAuthenticationFilter.class);
 
         // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
         http.headers().frameOptions().disable();
+
+        http
+                .headers()
+                .xssProtection()
+                .and()
+                .contentSecurityPolicy("script-src 'self'");
     }
 
     // Definisanje konfiguracije koja utice na generalnu bezbednost aplikacije

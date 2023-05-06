@@ -19,6 +19,7 @@ export class RegisterCsrFormComponent {
 
     username: new FormControl(''),
     password: new FormControl(''),
+    pin: new FormControl(''),
     name: new FormControl(''),
     role: new FormControl(''),
     validityStart: new FormControl(''),
@@ -35,6 +36,7 @@ export class RegisterCsrFormComponent {
   registerCsrInterface: RegisterCsrInterface = {
     username: '',
     password: '',
+    pin:'',
     name: '',
     role:'',
     validityStart: 0,
@@ -111,11 +113,14 @@ export class RegisterCsrFormComponent {
     // console.log("LIST2")
     // console.log(this.list2Items);
     // console.log("END LIST 2");
+    // alert("HAHA ALRT");
+
     let validityStart = moment(this.registerCSRForm.value.validityStart).valueOf();
     let validityPeriod = moment(this.registerCSRForm.value.validityPeriod).valueOf();
 
     this.registerCsrInterface.username = this.registerCSRForm.value.username!;
     this.registerCsrInterface.password = this.registerCSRForm.value.password!;
+    this.registerCsrInterface.pin = this.registerCSRForm.value.pin!;
     this.registerCsrInterface.name = this.registerCSRForm.value.name!;
     this.registerCsrInterface.role = this.registerCSRForm.value.role!;
     this.registerCsrInterface.validityStart = validityStart;
@@ -128,6 +133,29 @@ export class RegisterCsrFormComponent {
     this.registerCsrInterface.country = this.registerCSRForm.value.country!;
     this.registerCsrInterface.template = this.registerCSRForm.value.template!;
     this.registerCsrInterface.extensions = this.list2Items.join('|')
+    // console.log(this.registerCsrInterface);
+
+    this.registerCsrInterface.username = this.registerCsrInterface.username.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.password =  this.registerCsrInterface.password.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.pin = this.registerCsrInterface.pin.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.name = this.registerCsrInterface.name.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.commonName = this.registerCsrInterface.commonName.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.organizationUnion = this.registerCsrInterface.organizationUnion.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.organizationName = this.registerCsrInterface.organizationName.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.localityName = this.registerCsrInterface.localityName.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.stateName = this.registerCsrInterface.stateName.replace(/[^\w]/gi, '');
+    this.registerCsrInterface.country = this.registerCsrInterface.country.replace(/[^\w]/gi, '');
+    console.log(this.registerCsrInterface);
+
+    if (this.registerCsrInterface.password.length < 7
+      || !/\d/.test(this.registerCsrInterface.password)
+      || !/[A-Z]/.test(this.registerCsrInterface.password)
+      || !/[a-z]/.test(this.registerCsrInterface.password)
+      || !/[^a-zA-Z0-9]/.test(this.registerCsrInterface.password)) {
+      console.log("WRONG PASSWORD!");
+      return;
+    }
+    // console.log(this.registerCsrInterface);
     /* CHECK FORM DATA ... password,country etc... */
     if (this.registerCSRForm.value.country != undefined && this.registerCSRForm.value.country != undefined) {
       if (this.registerCSRForm.value.country?.length < 2){
@@ -136,7 +164,7 @@ export class RegisterCsrFormComponent {
       }
 
     }
-    // console.log(this.registerCsrInterface)
+    console.log(this.registerCsrInterface)
     this.registerCsrService.registerCsr(this.registerCsrInterface).subscribe(
       (answer: Boolean) => {
         if(answer){

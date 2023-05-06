@@ -8,6 +8,7 @@ import { RegisterCsrFormComponent } from './components/register-csr-form/registe
 import { VerifyCsrComponent } from './components/verify-csr/verify-csr.component';
 import { AdminCsrComponent } from './components/admin-csr/admin-csr.component';
 import { AdminCertificatesComponent } from './components/admin-certificates/admin-certificates.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 
 const routes: Routes = [
 
@@ -21,7 +22,8 @@ const routes: Routes = [
 
   {path: 'admin-home', component:AdminHomeComponent},
   {path: 'admin-csr', component:AdminCsrComponent},
-  {path: 'admin-certificate', component:AdminCertificatesComponent}
+  {path: 'admin-certificate', component:AdminCertificatesComponent},
+  {path: 'admin-users', component:AdminUsersComponent}
 
 
 ];

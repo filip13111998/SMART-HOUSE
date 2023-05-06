@@ -23,6 +23,9 @@ public class Admin implements UserDetails {
     private String name;
     private String username;
     private String password;
+    private Long counter;
+    private String pin;
+    private boolean active;
     //    private String role;
 
     @Override

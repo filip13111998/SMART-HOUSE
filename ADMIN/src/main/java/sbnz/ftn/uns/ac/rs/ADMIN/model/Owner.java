@@ -25,6 +25,9 @@ public class Owner implements UserDetails {
     private String name;
     private String username;
     private String password;
+    private Long counter;
+    private String pin;
+    private boolean active;
     @OneToOne
     private CSR csr;
 //    private String role;

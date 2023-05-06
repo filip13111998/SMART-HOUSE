@@ -44,6 +44,9 @@ public class DBInitializator {
                         .name("Nikola Perkovic")
                         .password(encoder.encode("asd"))
                         .username("a1")
+                        .counter(0l)
+                        .pin("11")
+                        .active(true)
                         .build();
 
         Admin a2 = Admin.builder()
@@ -51,6 +54,9 @@ public class DBInitializator {
                         .name("Zivko Radic")
                         .password(encoder.encode("asd"))
                         .username("a2")
+                        .counter(0l)
+                        .pin("22")
+                        .active(true)
                         .build();
 
         Admin a3 = Admin.builder()
@@ -58,6 +64,9 @@ public class DBInitializator {
                         .name("Pavle Vekic")
                         .password(encoder.encode("asd"))
                         .username("a3")
+                        .counter(0l)
+                        .pin("33")
+                        .active(true)
                         .build();
 
         Admin a4 = Admin.builder()
@@ -65,6 +74,9 @@ public class DBInitializator {
                         .name("Zoran Lakic")
                         .password(encoder.encode("asd"))
                         .username("a4")
+                        .counter(0l)
+                        .pin("44")
+                        .active(true)
                         .build();
 
         Owner o1 = Owner.builder()
@@ -72,6 +84,9 @@ public class DBInitializator {
                         .name("Filip Lubic")
                         .password(encoder.encode("asd"))
                         .username("o1")
+                        .counter(0l)
+                        .pin("11")
+                        .active(true)
                         .build();
 
         Owner o2 = Owner.builder()
@@ -79,13 +94,19 @@ public class DBInitializator {
                         .name("Zarko Lakic")
                         .password(encoder.encode("asd"))
                         .username("o2")
+                        .counter(0l)
+                        .pin("22")
+                        .active(true)
                         .build();
 
         Owner o3 = Owner.builder()
                         .id(UUID.randomUUID().toString())
                         .name("Petar Lakic")
                         .password(encoder.encode("asd"))
-                        .username("ad4")
+                        .username("o3")
+                        .counter(0l)
+                        .pin("33")
+                        .active(true)
                         .build();
 
         Tenant t1 = Tenant.builder()
@@ -93,6 +114,9 @@ public class DBInitializator {
                         .name("Djordje Lakic")
                         .password(encoder.encode("asd"))
                         .username("t1")
+                        .counter(0l)
+                        .pin("11")
+                        .active(true)
                         .build();
 
         Tenant t2 = Tenant.builder()
@@ -100,7 +124,20 @@ public class DBInitializator {
                         .name("Ognjen Vasic")
                         .password(encoder.encode("asd"))
                         .username("t2")
+                        .counter(0l)
+                        .pin("22")
+                        .active(true)
                         .build();
+
+        Tenant t3 = Tenant.builder()
+                .id(UUID.randomUUID().toString())
+                .name("Zarko Lakic")
+                .password(encoder.encode("asd"))
+                .username("o2")
+                .counter(0l)
+                .pin("22")
+                .active(true)
+                .build();
 
 //        System.out.println(a.getId());
 		ar.save(a1);
@@ -115,7 +152,7 @@ public class DBInitializator {
 
         tr.save(t1);
         tr.save(t2);
-
+        tr.save(t3);
 
 	}
 

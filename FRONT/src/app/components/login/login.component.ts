@@ -16,12 +16,15 @@ export class LoginComponent {
   loginForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
-
+    pin: new FormControl(''),
+    role: new FormControl(''),
   });
 
   loginInterface: LoginInterface = {
     username: '',
-    password: ''
+    password: '',
+    pin: '',
+    role:''
   };
   currentTime : any;
   constructor(private authService : AuthService,private router: Router ) { }
@@ -36,10 +39,17 @@ export class LoginComponent {
     // console.log(this.loginForm.value);
     this.loginInterface.username = this.loginForm.value.username!;
     this.loginInterface.password = this.loginForm.value.password!;
+    this.loginInterface.pin = this.loginForm.value.pin!;
+    this.loginInterface.role = this.loginForm.value.role!;
+
+    this.loginInterface.username = this.loginInterface.username.replace(/[^\w]/gi, '');
+    this.loginInterface.password =  this.loginInterface.password.replace(/[^\w]/gi, '');
+    this.loginInterface.pin = this.loginInterface.pin.replace(/[^\w]/gi, '');
+
     // if (this.loginForm.value.username !== '' && this.loginForm.value.username !== undefined) {
     //   this.loginInterface.username = this.loginForm.value.username!;
     // }
-
+    console.log(this.loginInterface);
     this.authService.login(this.loginInterface).subscribe(
       (tkn: TokenInterface) => {
         localStorage.setItem('user_token',tkn.accessToken)
