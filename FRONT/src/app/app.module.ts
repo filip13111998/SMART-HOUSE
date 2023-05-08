@@ -30,6 +30,10 @@ import { VerifyCsrComponent } from './components/verify-csr/verify-csr.component
 import { AdminCsrComponent } from './components/admin-csr/admin-csr.component';
 import { AdminCertificatesComponent } from './components/admin-certificates/admin-certificates.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { AdminMessageComponent } from './components/admin-message/admin-message.component';
+import { OwnerMessageComponent } from './components/owner-message/owner-message.component';
+import { TenantMessageComponent } from './components/tenant-message/tenant-message.component';
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { AdminUsersComponent } from './components/admin-users/admin-users.compon
     VerifyCsrComponent,
     AdminCsrComponent,
     AdminCertificatesComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    AdminMessageComponent,
+    OwnerMessageComponent,
+    TenantMessageComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,17 @@
+package drl;
+import ftn.uns.ac.rs.InitialProj.model.Order;
+
+
+
+rule "ALARM MOJ MERAC 1"
+
+when
+$orderObject : Message(cardType=="PRAV" && price>12000);
+then
+System.out.println("COUNTER IS : " + $orderObject.getCounter());
+$orderObject.setDiscount(40);
+$orderObject.setCounter($orderObject.getCounter() + 1);
+update($orderObject);
+end;
+
+

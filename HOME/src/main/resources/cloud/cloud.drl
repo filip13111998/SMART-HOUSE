@@ -1,0 +1,50 @@
+package cloud;
+
+import sbnz.ftn.uns.ac.rs.HOME.model.Message;
+import sbnz.ftn.uns.ac.rs.HOME.service.AlarmService;
+import java.util.List;
+import java.util.Date;
+//import Java.lang.Boolean;
+
+//global Boolean flag;
+
+rule "ALARM MOJ MERAC 1"
+    no-loop true
+    when
+        $m1 : Message( status == "NORMAL" , type == "MERAC_TEMP")
+        $m2 : Message( this != $m1, status == "NORMAL" ,  type == "MERAC_TEMP")
+        //over window: time(10m)
+        over window: time(10s)
+    then
+        System.out.println("desilo se jupiii");
+        //flag = true;
+
+end
+
+rule "ALARM STATUS WARNING"
+    no-loop true
+    when
+        $m1 : Message( status == "WARNING" , type == "MERAC_TEMP")
+        $m2 : Message( this != $m1, status == "WARNING" , type == "MERAC_TEMP")
+        //over window: time(10m)
+        over window: time(10s)
+        $a1 : AlarmService()
+    then
+        modify($m2){setStatus("ALARM")};
+        //AlarmService alarm = (AlarmService) kcontext.getKnowledgeRuntime().getGlobal("alarmService");
+        $a1.sentAlarmTemperatura1($m1);
+        System.out.println("desilo se WARNING!");
+        //flag = true;
+
+end
+
+
+/*
+rule "rule2"
+    when
+        $list: List() from collect(distinct Order(cardType == "PRAV"))
+        eval($list.size() >= 3)
+        over window:time(10m)
+    then
+        System.out.println("desilo se");
+end*/
