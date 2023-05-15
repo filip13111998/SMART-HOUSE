@@ -12,6 +12,11 @@ import { AdminUsersComponent } from './components/admin-users/admin-users.compon
 import { AdminMessageComponent } from './components/admin-message/admin-message.component';
 import { TenantMessageComponent } from './components/tenant-message/tenant-message.component';
 import { OwnerMessageComponent } from './components/owner-message/owner-message.component';
+import { AdminDeviceTypeComponent } from './components/admin-device-type/admin-device-type.component';
+import { OwnerDeviceComponent } from './components/owner-device/owner-device.component';
+import { OwnerHouseComponent } from './components/owner-house/owner-house.component';
+import { AdminLoggerComponent } from './components/admin-logger/admin-logger.component';
+import { AdminConfigComponent } from './components/admin-config/admin-config.component';
 
 const routes: Routes = [
 
@@ -21,6 +26,10 @@ const routes: Routes = [
 
   {path: 'owner-home', component:OwnerHomeComponent},
   {path: 'owner-message', component:OwnerMessageComponent},
+  {path: 'owner-device', component:OwnerDeviceComponent},
+  {path: 'owner-house', component:OwnerHouseComponent},
+
+
 
   {path: 'tenant-home', component:TenantHomeComponent},
   {path: 'tenant-message', component:TenantMessageComponent},
@@ -29,7 +38,10 @@ const routes: Routes = [
   {path: 'admin-csr', component:AdminCsrComponent},
   {path: 'admin-certificate', component:AdminCertificatesComponent},
   {path: 'admin-users', component:AdminUsersComponent},
-  {path: 'admin-message', component:AdminMessageComponent}
+  {path: 'admin-message', component:AdminMessageComponent},
+  {path: 'admin-device-type' , component:AdminDeviceTypeComponent},
+  {path: 'admin-logger', component:AdminLoggerComponent},
+  {path: 'admin-config', component:AdminConfigComponent},
 
 ];
 

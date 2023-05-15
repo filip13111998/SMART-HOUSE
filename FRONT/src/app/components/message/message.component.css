@@ -1,0 +1,24 @@
+.normal-status {
+  color: blue;
+  font-weight: bold;
+}
+
+.okay-status {
+  color: green;
+  font-weight: bold;
+}
+
+.warning-status {
+  color: orange;
+  font-weight: bold;
+}
+
+.error-status {
+  color: red;
+  font-weight: bold;
+}
+
+.alarm-status {
+  color: rgb(216, 14, 95);
+  font-weight: bold;
+}

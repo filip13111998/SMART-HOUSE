@@ -38,6 +38,30 @@ rule "ALARM STATUS WARNING"
 
 end
 
+rule "ALARM STATUS WARNING2"
+    no-loop true
+    when
+        $m1 : Message( status == "WARNING" , type == "MERAC_PRIT")
+        $m2 : Message( this != $m1, status == "WARNING" , type == "MERAC_PRIT")
+        over window: time(10s)
+        $a1 : AlarmService()
+    then
+        modify($m2){setStatus("ALARM")};
+        $a1.sentAlarmPritisak1($m1);
+end
+
+rule "ALARM STATUS ERROR"
+    no-loop true
+    when
+        $m1 : Message( status == "ERROR" , type == "MERAC_VLAZ")
+        $m2 : Message( this != $m1, status == "ERROR" , type == "MERAC_VLAZ")
+        over window: time(10s)
+        $a1 : AlarmService()
+    then
+        modify($m2){setStatus("ALARM")};
+        $a1.sentAlarmVlaz1($m1);
+end
+
 
 /*
 rule "rule2"

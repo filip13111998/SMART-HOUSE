@@ -1,11 +1,14 @@
 package sbnz.ftn.uns.ac.rs.ADMIN.service;
 
 import org.bouncycastle.operator.OperatorCreationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sbnz.ftn.uns.ac.rs.ADMIN.controller.CSRController;
 import sbnz.ftn.uns.ac.rs.ADMIN.dto.request.CSRRequestDTO;
 import sbnz.ftn.uns.ac.rs.ADMIN.dto.response.CSRResponseDTO;
 import sbnz.ftn.uns.ac.rs.ADMIN.initializator.KeyStoreInitializer;
@@ -57,6 +60,9 @@ public class CSRService {
     @Autowired
     private PasswordReader passwordReader;
 
+    private static final Logger logger = LoggerFactory.getLogger(CSRService.class);
+
+
     public boolean save(CSRRequestDTO cssrdto) throws IOException, NoSuchAlgorithmException, OperatorCreationException {
 
         Random random = new Random();
@@ -65,11 +71,17 @@ public class CSRService {
         if(cssrdto.getPassword().length() < 7 || !cssrdto.getPassword().matches(".*\\d+.*") || !cssrdto.getPassword().matches(".*[A-Z]+.*")
             ||  !cssrdto.getPassword().matches(".*[a-z]+.*") || !cssrdto.getPassword().matches(".*[^a-zA-Z0-9]+.*")){
             System.out.println("WRONG USERNAME!");
+
+            logger.warn("ADMIN-APP CSRService save.");
+
             return false;
         }
 
         if(passwordReader.getPasswords().contains(cssrdto.getPassword())){
             System.out.println("WEAK PASSWORD!");
+
+            logger.warn("ADMIN-APP CSRService save.");
+
             return false;
         }
 
@@ -153,6 +165,8 @@ public class CSRService {
                 "YOUR CODE IS: " + randomNumber
         );
 
+        logger.info("ADMIN-APP CSRService save.");
+
         return true;
     }
 
@@ -160,6 +174,9 @@ public class CSRService {
         System.out.println("VERIFYYY");
         CSR csr = csrr.findBySerialNumber(code);
         if(csr == null){
+
+            logger.warn("ADMIN-APP CSRService verify.");
+
             return false;
         }
         csr.setAccept(true);
@@ -168,14 +185,22 @@ public class CSRService {
         if(owner != null){
             owner.setActive(true);
             or.save(owner);
+            logger.info("ADMIN-APP CSRService verify.");
+
             return true;
         }
         Tenant tenant = tr.findByUsername(csr.getUser().getUsername());
         if(tenant != null){
             tenant.setActive(true);
             tr.save(tenant);
+
+            logger.info("ADMIN-APP CSRService verify.");
+
             return true;
         }
+
+        logger.warn("ADMIN-APP CSRService verify.");
+
         return false;
     }
 
@@ -201,6 +226,8 @@ public class CSRService {
                         .build()
                 )
                 .collect(Collectors.toList());
+
+        logger.warn("ADMIN-APP CSRService findAll.");
 
         return lcsrrdto;
     }
@@ -249,6 +276,8 @@ public class CSRService {
             ksi.createCACertificate(csr.getUser().getUsername(), Arrays.asList(csr.getExtensions().split("\\|")));
         }
 
+        logger.warn("ADMIN-APP CSRService accept.");
+
         return true;
     }
 
@@ -267,7 +296,7 @@ public class CSRService {
 
         //MAYBE I NEED TO DELETE CSR FILE IN RESOURE FOLDER
         //WRITE CODE THIS
-
+        logger.warn("ADMIN-APP CSRService accedeletept.");
 
         return true;
     }

@@ -41,12 +41,15 @@ public class Simulator {
     @Autowired
     private AlarmService alarmService;
 
+    String path = Paths.get("").normalize().toAbsolutePath().toString();
+    String new_path = path.split("HOME")[0] + "/STORE/config.txt";
+
     @Scheduled(fixedRate = 1000)
     public void sentMessage() {
 //        System.out.println("SALJEMO PORUKU" + new Date().getTime()/1000);
 
-        String path = Paths.get("").normalize().toAbsolutePath().toString();
-        String new_path = path.split("HOME")[0] + "/STORE/config.txt";
+//        String path = Paths.get("").normalize().toAbsolutePath().toString();
+//        String new_path = path.split("HOME")[0] + "/STORE/config.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(new_path))) {
 
@@ -102,6 +105,7 @@ public class Simulator {
                 }
 
             }
+            br.close();
 
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -34,6 +34,13 @@ import { AdminMessageComponent } from './components/admin-message/admin-message.
 import { OwnerMessageComponent } from './components/owner-message/owner-message.component';
 import { TenantMessageComponent } from './components/tenant-message/tenant-message.component';
 import { MessageComponent } from './components/message/message.component';
+import { AdminDeviceTypeComponent } from './components/admin-device-type/admin-device-type.component';
+import { OwnerDeviceComponent } from './components/owner-device/owner-device.component';
+import { OwnerHouseComponent } from './components/owner-house/owner-house.component';
+import { AdminLoggerComponent } from './components/admin-logger/admin-logger.component';
+import { AdminConfigComponent } from './components/admin-config/admin-config.component';
+import { AdminConfigTableComponent } from './components/admin-config-table/admin-config-table.component';
+import { AdminConfigFormComponent } from './components/admin-config-form/admin-config-form.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +60,14 @@ import { MessageComponent } from './components/message/message.component';
     AdminMessageComponent,
     OwnerMessageComponent,
     TenantMessageComponent,
-    MessageComponent
+    MessageComponent,
+    AdminDeviceTypeComponent,
+    OwnerDeviceComponent,
+    OwnerHouseComponent,
+    AdminLoggerComponent,
+    AdminConfigComponent,
+    AdminConfigTableComponent,
+    AdminConfigFormComponent
   ],
   imports: [
     BrowserModule,

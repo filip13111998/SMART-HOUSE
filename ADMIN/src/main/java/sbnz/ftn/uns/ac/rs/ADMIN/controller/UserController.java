@@ -1,5 +1,7 @@
 package sbnz.ftn.uns.ac.rs.ADMIN.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +21,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+
     @PreAuthorize("@methodLevelPermission.hasPermission(authentication,'foo', 'getAllUsers')")
     @GetMapping(value = "/all")
     public ResponseEntity<List<UserTableDTO>> getAllUsers(){
+
+        logger.info("ADMIN-APP UserController getAllUsers");
 
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
@@ -29,6 +36,8 @@ public class UserController {
     @PreAuthorize("@methodLevelPermission.hasPermission(authentication,'foo', 'removeUser')")
     @GetMapping(value = "/remove/{username}/{role}")
     public ResponseEntity<Boolean> removeUser(@PathVariable("username") String username , @PathVariable("role") String role){
+        logger.info("ADMIN-APP UserController removeUser");
+
         return ResponseEntity.ok().body(userService.removeUser(username,role));
     }
 
@@ -36,6 +45,9 @@ public class UserController {
     @GetMapping(value = "/owner-role/{username}/{flag}")
     public ResponseEntity<Boolean> ownerRoleUser(@PathVariable("username") String username ,
                                                   @PathVariable("flag") boolean flag ){
+
+        logger.info("ADMIN-APP UserController ownerRoleUser");
+
         return ResponseEntity.ok().body(userService.ownerRoleUser(username,flag));
 
     }
@@ -44,6 +56,9 @@ public class UserController {
     @GetMapping(value = "/tenant-role/{username}/{flag}")
     public ResponseEntity<Boolean> tenantRoleUser(@PathVariable("username") String username ,
                                                   @PathVariable("flag") boolean flag ){
+
+        logger.info("ADMIN-APP UserController tenantRoleUser");
+
         return ResponseEntity.ok().body(userService.tenantRoleUser(username,flag));
 
     }

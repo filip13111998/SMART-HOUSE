@@ -4,6 +4,8 @@ import bsep.ftn.uns.ac.rs.DEVICE.model.DeviceMessage;
 import bsep.ftn.uns.ac.rs.DEVICE.model.Message;
 import bsep.ftn.uns.ac.rs.DEVICE.repository.DeviceRepository;
 import bsep.ftn.uns.ac.rs.DEVICE.repository.MessageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -39,9 +41,15 @@ public class DeviceMessageSimulator {
     @Autowired
     private MongoOperations mongoOperations;
 
+    private static final Logger logger = LoggerFactory.getLogger(DeviceMessageSimulator.class);
+
+
     @PostConstruct
     public void recreateStoreFile(){
         mongoTemplate.dropCollection("MESSAGE");
+
+        logger.info("DEVICE-APP DeviceMessageSimulator recreateStoreFile.");
+
 //        String collectionName = "MESSAGE_" + new Date().getTime();
 //        mongoOperations.createCollection(collectionName);
 //        String path = Paths.get("").normalize().toAbsolutePath().toString();

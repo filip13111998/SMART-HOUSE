@@ -1,0 +1,74 @@
+<app-admin-menu></app-admin-menu>
+
+<div style="height: 20px;"></div>
+
+<div style="width:20%;text-align: center;margin-left: 40%;margin-top: 10%;">
+
+  <form [formGroup]="deviceTypeForm">
+    <div class="mb-3">
+      <label for="exampleInputUsername" class="form-label">Device Type Name:</label>
+      <input type="name" formControlName="name" class="form-control" id="exampleInputName"
+        aria-describedby="usernameHelp">
+
+    </div>
+
+    <form [formGroup]="messageForm" style="display: flex; justify-content: center;margin-top: 1em;">
+      <div class="mb-3" style="display: inline-block; margin-right: 10px;">
+        MESSAGE NAME
+        <input type="message" formControlName="message" class="form-control" id="exampleInputMessage"
+          aria-describedby="messageHelp">
+
+        <div class="form-group">
+          <label for="exampleFormControlSelect3">MESSAGE TYPE</label>
+          <select formControlName="status" class="form-control" id="exampleFormControlSelect3">
+            <option>NORMAL</option>
+            <option>OKAY</option>
+            <option>ERROR</option>
+            <option>WARNING</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="add_message()"
+          style="display: inline-block;height: 2.2em;margin-top: 2em;"><b>+</b></button>
+      </div>
+
+
+    </form>
+
+    <div *ngFor="let msg of messageList;let i = index" style="display: flex; justify-content: center;margin-top: 1em;">
+      <p style="display: inline-block;margin-top: 0.2em;"><b>{{ msg.text}} - {{msg.status}}</b></p>
+      <button type="submit" class="btn btn-danger" (click)="delete_message(i)"><b>X</b></button>
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="save_device_type()" style="margin-top: 1em;">ADD NEW DEVICE
+      TYPE</button>
+  </form>
+
+</div>
+
+<!-- <form [formGroup]="messageForm"
+  style="width: 100%;  margin-left: 30%; margin-top: 1%; display: flex; align-items: center;"
+  > -->
+<!-- <form [formGroup]="messageForm" style="display: flex; justify-content: center;margin-top: 1em;">
+  <div class="mb-3" style="display: inline-block; margin-right: 10px;">
+
+    <input type="message" formControlName="message" class="form-control" id="exampleInputMessage"
+      aria-describedby="messageHelp">
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="add_message()"
+    style="display: inline-block;height: 2.2em;"><b>+</b></button>
+
+</form>
+
+<div *ngFor="let msg of messageList" style="display: flex; justify-content: center;margin-top: 1em;">
+  <p style="display: inline-block;margin-top: 0.2em;"><b>{{ msg }}</b></p>
+  <button type="submit" class="btn btn-danger" (click)="delete_message(msg)"><b>X</b></button>
+</div> -->
+
+
+<!-- <div style="" *ngFor="let msg of this.messageList">
+  <p style="display: inline-block; margin-right: 1em;"><b>{{ msg }} </b></p>
+  <button type="submit" class="btn btn-danger" (click)="delete_message(msg)"
+    style="margin-top: -0.2em;display: inline-block;"><b>X</b></button>
+</div> -->
+
+<div style="height: 20px;"></div>

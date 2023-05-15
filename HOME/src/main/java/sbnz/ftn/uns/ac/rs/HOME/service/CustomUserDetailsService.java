@@ -1,5 +1,7 @@
 package sbnz.ftn.uns.ac.rs.HOME.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -30,8 +32,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private ConfigurableApplicationContext context;
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        logger.info("HOME-APP CustomUserDetailsService loadUserByUsername.");
+
+
         JwtAuthenticationRequest jar = context.getBean(username , JwtAuthenticationRequest.class);
 //        context.getBeanFactory().destroyBean(username , jar);
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) context.getBeanFactory();

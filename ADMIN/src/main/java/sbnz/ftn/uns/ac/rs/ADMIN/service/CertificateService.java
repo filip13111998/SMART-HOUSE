@@ -1,8 +1,11 @@
 package sbnz.ftn.uns.ac.rs.ADMIN.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sbnz.ftn.uns.ac.rs.ADMIN.controller.CSRController;
 import sbnz.ftn.uns.ac.rs.ADMIN.dto.response.CertificateTableDTO;
 import sbnz.ftn.uns.ac.rs.ADMIN.initializator.KeyStoreInitializer;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Certificate;
@@ -25,6 +28,8 @@ public class CertificateService {
     @Autowired
     private KeyStoreInitializer ksi;
 
+    private static final Logger logger = LoggerFactory.getLogger(CertificateService.class);
+
 
     public List<CertificateTableDTO> getAll(){
 
@@ -41,6 +46,9 @@ public class CertificateService {
                                 .build())
                 .collect(Collectors.toList());
 
+        logger.info("ADMIN-APP CertificateService getAll.");
+
+
         return ctdto;
 
     }
@@ -54,6 +62,8 @@ public class CertificateService {
         cr.save(certificate);
 
         ksi.deleteCertificate(certificate.getSubject());
+
+        logger.info("ADMIN-APP CertificateService delete.");
 
         return true;
 
@@ -71,6 +81,8 @@ public class CertificateService {
 
         ksi.deleteCertificate(certificate.getSubject());
 
+        logger.info("ADMIN-APP CertificateService revoke.");
+
         return true;
     }
 
@@ -80,15 +92,21 @@ public class CertificateService {
 
         if (certificate == null) {
             // Certificate not found, so it's valid
+            logger.info("ADMIN-APP CertificateService validate.");
+
             return true;
         }
 
         if (certificate.getRevoke()) {
             // Certificate is revoked, so it's invalid
+            logger.warn("ADMIN-APP CertificateService validate.");
+
             return false;
         }
 
         // Certificate is not revoked, so it's valid
+        logger.info("ADMIN-APP CertificateService validate.");
+
         return true;
 
     }

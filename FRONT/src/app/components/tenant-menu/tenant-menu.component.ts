@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-tenant-menu',
@@ -6,12 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./tenant-menu.component.css']
 })
 export class TenantMenuComponent {
-  constructor() { }
+  constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
   }
 
   public logout() {
-    localStorage.clear();
+    this.authService.logout().subscribe(answer =>{
+      if(answer){
+        localStorage.clear();
+      }
+    });
+    // localStorage.clear();
+
+
   }
 }

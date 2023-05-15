@@ -1,6 +1,8 @@
 package sbnz.ftn.uns.ac.rs.ADMIN.controller;
 
 import org.bouncycastle.operator.OperatorCreationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +26,15 @@ public class CertificateController {
     @Autowired
     private CertificateService cc;
 
+    private static final Logger logger = LoggerFactory.getLogger(CertificateController.class);
+
+
     //return all certificates
     @PreAuthorize("@methodLevelPermission.hasPermission(authentication,'foo', 'getAllCertificates')")
     @GetMapping(value = "/get-all")
     public ResponseEntity<List<CertificateTableDTO>> getAllCertificates(){
+
+        logger.info("ADMIN-APP CertificateController getAllCertificates.");
 
         List<CertificateTableDTO> answer = cc.getAll();
 
@@ -37,6 +44,8 @@ public class CertificateController {
     @PreAuthorize("@methodLevelPermission.hasPermission(authentication,'foo', 'deleteCertificate')")
     @GetMapping(value = "/delete/{id}")
     public ResponseEntity<Boolean> deleteCertificate(@PathVariable String id) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException {
+        logger.info("ADMIN-APP CertificateController deleteCertificate.");
+
         Boolean answer = cc.delete(id);
 
         return new ResponseEntity<Boolean>(answer, HttpStatus.OK);
@@ -45,6 +54,8 @@ public class CertificateController {
     @PreAuthorize("@methodLevelPermission.hasPermission(authentication,'foo', 'revokeCertificate')")
     @GetMapping(value = "/revoke/{id}")
     public ResponseEntity<Boolean> revokeCertificate(@PathVariable String id) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException {
+        logger.info("ADMIN-APP CertificateController revokeCertificate.");
+
         Boolean answer = cc.revoke(id);
 
         return new ResponseEntity<Boolean>(answer, HttpStatus.OK);
@@ -53,6 +64,8 @@ public class CertificateController {
     @PreAuthorize("@methodLevelPermission.hasPermission(authentication,'foo', 'validateCertificate')")
     @GetMapping(value = "/validate/{id}")
     public ResponseEntity<Boolean> validateCertificate(@PathVariable String id){
+        logger.info("ADMIN-APP CertificateController validateCertificate.");
+
         Boolean answer = cc.validate(id);
 
         return new ResponseEntity<Boolean>(answer, HttpStatus.OK);

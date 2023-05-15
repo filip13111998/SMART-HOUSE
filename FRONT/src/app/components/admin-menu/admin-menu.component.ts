@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,12 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-menu.component.css']
 })
 export class AdminMenuComponent {
-  constructor() { }
+  constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
   }
 
   public logout() {
-    localStorage.clear();
+    this.authService.logout().subscribe(answer =>{
+      if(answer){
+        localStorage.clear();
+      }
+    });
+    // localStorage.clear();
+
   }
 }

@@ -18,6 +18,11 @@ export class AuthService {
     return this.http.post<TokenInterface>( this.path + '/login' , entity );
   }
 
+  logout():Observable<Boolean> {
+    console.log('login request send');
+    return this.http.get<Boolean>( this.path + '/logout');
+  }
+
   // registerCitizen(entity: CitizenRegisterInterface) {
   //   console.log('register-citizen request send');
   //   return this.http.post( this.path + '/register-citizen' , entity );

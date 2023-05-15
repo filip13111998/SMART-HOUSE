@@ -1,0 +1,26 @@
+<div style="width:20%;text-align: center;margin-left: 40%;margin-top: 2%;">
+
+  <form [formGroup]="configForm">
+
+    <div class="mb-3">
+      <label for="exampleInputName" class="form-label">Name</label>
+      <input type="text" formControlName="name" class="form-control" id="exampleInputName" [disabled]="true">
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputMinutes" class="form-label">MINUTES</label>
+      <input type="text" formControlName="minutes" class="form-control" id="exampleInputMinutes">
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputRegex" class="form-label">REGEX</label>
+      <input type="text" formControlName="regex" class="form-control" id="exampleInputRegex">
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="sentConfig()" style="margin-top: 1em;">UPDATE</button>
+
+  </form>
+
+</div>
+
+<div style="height:100px"></div>

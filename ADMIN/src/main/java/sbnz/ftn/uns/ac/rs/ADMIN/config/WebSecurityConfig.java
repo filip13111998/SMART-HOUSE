@@ -112,6 +112,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/tenant/**").hasRole("TENANT")
                 .antMatchers("/all/**").permitAll()
                 .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/ws/**").permitAll()
                 .antMatchers("/auth/**").permitAll()		// /auth/**
                 .antMatchers("/h2-console/**").permitAll()	// /h2-console/** ako se koristi H2 baza)
                 .antMatchers("/api/foo").permitAll()		// /api/foo

@@ -1,0 +1,61 @@
+<app-owner-menu></app-owner-menu>
+<div style="height: 20px;"></div>
+
+<div style="width:20%;text-align: center;margin-left: 40%;margin-top: 10%;">
+
+  <form [formGroup]="houseForm">
+    <div class="mb-3">
+      <label for="exampleInputUsername" class="form-label">House Name:</label>
+      <input type="name" formControlName="name" class="form-control" id="exampleInputName"
+        aria-describedby="usernameHelp">
+
+    </div>
+
+    <form [formGroup]="ownersForm" style="display: flex; justify-content: center;margin-top: 1em;">
+      <div class="mb-3" style="display: inline-block; margin-right: 10px;">
+        OWNER USERNAME
+        <input type="owner" formControlName="owner" class="form-control" id="exampleInputOwner"
+          aria-describedby="ownerHelp">
+
+
+        <button type="submit" class="btn btn-primary" (click)="add_owner()"
+          style="display: inline-block;height: 2.2em;margin-top: 2em;"><b>+</b></button>
+      </div>
+
+
+    </form>
+
+    <div *ngFor="let owner of ownersList;let i = index" style="display: flex; justify-content: center;margin-top: 1em;">
+      <p style="display: inline-block;margin-top: 0.2em;"><b>{{ owner}} </b></p>
+      <button type="submit" class="btn btn-danger" (click)="delete_owner(i)"><b>X</b></button>
+    </div>
+
+    <form [formGroup]="tenantsForm" style="display: flex; justify-content: center;margin-top: 1em;">
+      <div class="mb-3" style="display: inline-block; margin-right: 10px;">
+        TENANT USERNAME
+        <input type="tenant" formControlName="tenant" class="form-control" id="exampleInputTenant"
+          aria-describedby="tenantHelp">
+
+
+        <button type="submit" class="btn btn-primary" (click)="add_tenant()"
+          style="display: inline-block;height: 2.2em;margin-top: 2em;"><b>+</b></button>
+      </div>
+
+
+    </form>
+
+
+
+    <div *ngFor="let tenant of tenantsList;let i = index"
+      style="display: flex; justify-content: center;margin-top: 1em;">
+      <p style="display: inline-block;margin-top: 0.2em;"><b>{{tenant}}</b></p>
+      <button type="submit" class="btn btn-danger" (click)="delete_tenant(i)"><b>X</b></button>
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="save_house()" style="margin-top: 1em;">ADD NEW HOUSE</button>
+  </form>
+
+</div>
+
+
+<div style="height: 20px;"></div>

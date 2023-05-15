@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageInterface } from 'src/app/models/MessageInterface';
 import { MessageService } from 'src/app/services/message.service';
@@ -16,7 +17,18 @@ export class MessageComponent {
 
   devices:string[] = [];
 
+  statusList :string[] = ['NORMAL','OKAY','WARNING','ERROR','ALARM'];
+
   messages : MessageInterface[] = [];
+
+  messagesFilter : MessageInterface[] = [];
+
+  filter:boolean = true
+
+  messageForm = new FormGroup({
+    device: new FormControl(''),
+    status: new FormControl(''),
+  })
 
   constructor(private messageService : MessageService , private sharedMessage : SharedMessageService,
      private webSocketAPI: WebSocketAPI , public sanitizer: DomSanitizer) {
@@ -30,7 +42,15 @@ export class MessageComponent {
       if(hasMessageWithDate){
         return;
       }
+
       this.messages = [...this.messages,message];
+      if(this.filter){
+
+        this.messagesFilter = [...this.messages];
+      }else{
+        this.filter_message();
+      }
+
     });
    }
 
@@ -47,5 +67,47 @@ export class MessageComponent {
 
   }
 
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'NORMAL':
+        return 'normal-status';
+      case 'OKAY':
+        return 'okay-status';
+      case 'WARNING':
+        return 'warning-status';
+      case 'ERROR':
+        return 'error-status';
+      case 'ALARM':
+        return 'alarm-status';
+      default:
+        return '';
+    }
+  }
 
+  public filter_message(){
+    this.filter = false;
+    console.log(this.messageForm.value);
+    if(this.messageForm.value.device!  == '' || this.messageForm.value.device! == null){
+      this.messagesFilter = this.messages.filter(msg =>msg.status == this.messageForm.value.status!)
+      return;
+    }
+
+    if(this.messageForm.value.status!  == '' || this.messageForm.value.status! == null){
+      this.messagesFilter = this.messages.filter(msg =>{
+        return msg.device == this.messageForm.value.device!
+      })
+
+      return;
+    }
+
+    this.messagesFilter = this.messages.filter(msg =>{
+      return msg.device == this.messageForm.value.device! && msg.status == this.messageForm.value.status!;
+    })
+
+  }
+  public reset_message(){
+    this.filter = true;
+    this.messagesFilter = this.messages;
+    this.messageForm.reset();
+  }
 }

@@ -1,10 +1,13 @@
 package sbnz.ftn.uns.ac.rs.ADMIN.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sbnz.ftn.uns.ac.rs.ADMIN.controller.CSRController;
 import sbnz.ftn.uns.ac.rs.ADMIN.dto.response.UserTableDTO;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Owner;
 import sbnz.ftn.uns.ac.rs.ADMIN.model.Tenant;
@@ -30,7 +33,13 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+
     public List<UserTableDTO> getAllUsers() {
+
+        logger.info("ADMIN-APP UserService getAllUsers.");
+
         List<UserTableDTO> owners = ownerRepository.findAll().stream()
                 .filter(o->o.isActive())
                 .map(o->
@@ -81,6 +90,7 @@ public class UserService {
             if(owner != null){
                 owner.setActive(false);
                 ownerRepository.save(owner);
+                logger.info("ADMIN-APP UserService removeUser.");
                 return true;
             }
         }
@@ -89,10 +99,11 @@ public class UserService {
             if(tenant != null){
                 tenant.setActive(false);
                 tenantRepository.save(tenant);
+                logger.info("ADMIN-APP UserService removeUser.");
                 return true;
             }
         }
-
+        logger.warn("ADMIN-APP UserService removeUser.");
         return false;
     }
 
@@ -104,14 +115,20 @@ public class UserService {
             if(!flag){
                 owner.setActive(flag);
                 ownerRepository.save(owner);
+
+                logger.info("ADMIN-APP UserService ownerRoleUser.");
+
                 return true;
             }
             if(tenant != null && tenant.isActive()){
                 owner.setActive(flag);
                 ownerRepository.save(owner);
+
+                logger.info("ADMIN-APP UserService ownerRoleUser.");
+
                 return true;
             }
-
+            logger.warn("ADMIN-APP UserService ownerRoleUser.");
             return false;
         }else{
             if(tenant != null && tenant.isActive()){
@@ -125,6 +142,9 @@ public class UserService {
                             .active(true)
                             .build();
                     ownerRepository.save(owner);
+
+                    logger.info("ADMIN-APP UserService ownerRoleUser.");
+
                     return true;
 
             }
@@ -176,6 +196,8 @@ public class UserService {
 //            }
 //        }
 
+        logger.warn("ADMIN-APP UserService ownerRoleUser.");
+
         return false;
     }
 
@@ -188,13 +210,21 @@ public class UserService {
             if(!flag){
                 tenant.setActive(flag);
                 tenantRepository.save(tenant);
+
+                logger.info("ADMIN-APP UserService tenantRoleUser.");
+
                 return true;
             }
             if(owner != null && owner.isActive()){
                 tenant.setActive(flag);
                 tenantRepository.save(tenant);
+
+                logger.info("ADMIN-APP UserService tenantRoleUser.");
+
                 return true;
             }
+
+            logger.warn("ADMIN-APP UserService tenantRoleUser.");
 
             return false;
         }else{
@@ -209,10 +239,15 @@ public class UserService {
                         .active(true)
                         .build();
                 tenantRepository.save(tenant);
+
+                logger.info("ADMIN-APP UserService tenantRoleUser.");
+
                 return true;
 
             }
         }
+        logger.warn("ADMIN-APP UserService tenantRoleUser.");
+
         return false;
     }
 

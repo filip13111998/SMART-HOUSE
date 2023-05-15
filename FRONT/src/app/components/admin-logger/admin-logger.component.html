@@ -1,0 +1,26 @@
+<app-admin-menu></app-admin-menu>
+
+<div style="width:20%;text-align: center;margin-left: 40%;margin-top: 2%;">
+
+  <form [formGroup]="filterForm">
+
+    <div class="mb-3">
+      <label for="exampleInputFilter" class="form-label">FILTER</label>
+      <input type="filter" formControlName="filter" class="form-control" id="exampleInputFilter">
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="filter_log()" style="margin-top: 1em;">FILTER</button>
+
+    <button type="submit" class="btn btn-danger" (click)="reset_log()" style="margin-top: 1em;">RESET</button>
+
+  </form>
+
+</div>
+
+<div style="height: 20px;"></div>
+<b>LOGS</b>
+<ul style="width: 100%;">
+  <li *ngFor="let log of logsFilter">{{log}}</li>
+</ul>
+
+<div style="height:100px"></div>

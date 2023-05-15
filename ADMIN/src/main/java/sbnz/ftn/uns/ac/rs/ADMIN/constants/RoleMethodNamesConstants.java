@@ -18,7 +18,9 @@ public class RoleMethodNamesConstants {
 //            "verifyCSR",
             "getAllCSRS",
             "acceptCSR",
-            "deleteCSR"
+            "deleteCSR",
+            "getConfigs",
+            "updateConfig"
     );
 
     public static final List<String> OWNER_METHODS = Arrays.asList(
